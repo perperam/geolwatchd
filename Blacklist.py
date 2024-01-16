@@ -39,9 +39,9 @@ class Blacklist:
 
         return True
 
-    def get_areas(self) -> list | None:
+    def get_areas(self) -> dict | None:
         if self.data:
-            return [Polygon(points) for points in self.data.values()]
+            return {name: Polygon(points) for name, points in zip(self.data.keys(), self.data.values())}
         else:
             return None
 
