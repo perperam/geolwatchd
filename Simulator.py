@@ -1,11 +1,14 @@
 from abc import ABC, abstractmethod
 import time
 
+import pynmea2
+import serial
+
 
 class DataEndpoint(ABC):
     @abstractmethod
-    def get_geolocation(self):
-        return
+    def get_geolocation(self) -> tuple | None:
+        pass
 
 
 class Simulator(DataEndpoint):
@@ -14,13 +17,17 @@ class Simulator(DataEndpoint):
         self.interval = interval
         self.start_time = time.time()
 
-    def get_geolocation(self) -> list:
+    def get_geolocation(self) -> tuple | None:
         if not self.items:
             raise ValueError("No items in the storage.")
 
         elapsed_time = time.time() - self.start_time
         index = int(elapsed_time / self.interval) % len(self.items)
-        return self.items[index]
+
+        if self.items[index] is None:
+            return None
+        else:
+            return tuple(self.items[index])
 
     def add_geolocation(self, item) -> None:
         self.items.append(item)
@@ -29,8 +36,39 @@ class Simulator(DataEndpoint):
         self.start_time = time.time()
 
 
+class Sensor(DataEndpoint):
+    def __init__(self):
+        self.port = "/dev/ttyACM0"
+        self.baud_rate = 9600
+
+    def get_geolocation(self) -> tuple | None:
+        with serial.Serial(self.port, self.baud_rate, timeout=1) as ser:
+            line = ser.readline().decode("utf-8").strip()
+
+            # Check if the line is a valid NMEA sentence
+            if line.startswith('$'):
+                try:
+                    msg = pynmea2.parse(line)
+
+                    if isinstance(msg, pynmea2.GGA):
+                        print(f"Lat: {msg.latitude} {msg.lat_dir} | "
+                              f"Lon: {msg.longitude} {msg.lon_dir} | "
+                              f"Alt: {msg.altitude} | "
+                              f"NumSats: {msg.num_sats}")
+
+                        if msg.is_valid:
+                            return msg.latitude, msg.longitude
+                        else:
+                            return None
+
+                except pynmea2.ParseError:
+                    print(f"Error parsing NMEA sentence: {line}")
+                    return None
+
+
 if __name__ == "__main__":
-    s = Simulator([[1, 1], [2, 2], [3, 3], [4, 4]], interval=5)
+    # endpoint = Simulator([[1, 1], [2, 2], [3, 3], [4, 4]], interval=5)
+    endpoint = Sensor()
     while True:
-        print(s.get_geolocation())
+        print(endpoint.get_geolocation())
         time.sleep(2)
