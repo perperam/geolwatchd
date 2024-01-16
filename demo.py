@@ -1,5 +1,6 @@
 import pynmea2  # Install with: pip install pynmea2
 import serial
+import datetime
 
 port = "/dev/ttyACM0"
 baud_rate = 9600
@@ -15,11 +16,13 @@ with serial.Serial(port, baud_rate, timeout=1) as ser:
 
                 # Check the type of NMEA sentence
                 if isinstance(msg, pynmea2.GGA):
-                    print(f"Latitude: {msg.latitude} {msg.lat_dir}")
-                    print(f"Longitude: {msg.longitude} {msg.lon_dir}")
-                    print(f"Altitude: {msg.altitude} meters")
-                    print(f"Number of Satellites: {msg.num_sats}")
+                    print(f"Lat: {msg.latitude} {msg.lat_dir} | "
+                          f"Lon: {msg.longitude} {msg.lon_dir} | "
+                          f"Alt: {msg.altitude} | "
+                          f"NumSats: {msg.num_sats}")
                     # Add more fields as needed
+                    # with open("./sample_data.txt", "a") as f:
+                      #  f.write(str(datetime.datetime.now())+str(msg.fields)+'\n')
 
             except pynmea2.ParseError:
                 print(f"Error parsing NMEA sentence: {line}")
