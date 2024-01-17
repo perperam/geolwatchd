@@ -47,5 +47,5 @@ class Blacklist:
 
 
 if __name__ == "__main__":
-    b = Blacklist("./blacklist.json")
+    b = Blacklist("../blacklist.json")
     print(b.data)

@@ -1,11 +1,10 @@
 from time import sleep
 from typing import Callable
-import logging
 import socket
 
 from shapely.geometry import Point
 
-from Blacklist import Blacklist
+from src.Blacklist import Blacklist
 from Simulator import Simulator, Sensor
 
 
@@ -94,6 +93,6 @@ if __name__ == "__main__":
 
     g = Sensor()
 
-    blacklist = Blacklist("./blacklist.json")
+    blacklist = Blacklist("../blacklist.json")
     p = Processor(s.get_geolocation, blacklist)
     p.run()
