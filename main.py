@@ -1,12 +1,19 @@
 from time import sleep
 from typing import Callable
 import logging
+import socket
 
 from shapely.geometry import Point
 
 from Blacklist import Blacklist
 from Simulator import Simulator, Sensor
 
+
+def send_udp_message(message, host="localhost", port=12345):
+    # Create a UDP socket
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+        # Send the message
+        s.sendto(message.encode('utf-8'), (host, port))
 
 class Handler:
     # Add a Debouncer time stamp here
@@ -17,12 +24,14 @@ class Handler:
         if not Handler.is_blocked:
             Handler.is_blocked = True
             print("Blocked")
+            send_udp_message("Block it!")
 
     @staticmethod
     def unblock() -> None:
         if Handler.is_blocked:
             Handler.is_blocked = False
             print("Unblocked")
+            send_udp_message("Unblock it!")
 
 
 class Processor:
