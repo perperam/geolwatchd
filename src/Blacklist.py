@@ -19,22 +19,20 @@ class Blacklist:
         if self.is_valid_json(loaded_data):
             self.data = loaded_data
         else:
+            self.data = {}
             Exception("Blacklist data is in the wrong format")
 
     def is_valid_json(self, data: dict) -> bool:
         if not isinstance(data, dict):
-            print("Error 1")
             return False
 
         for entry_name, coordinates in data.items():
             if not isinstance(entry_name, str) or not isinstance(coordinates, list):
-                print("Error 2")
                 return False
 
             for coord_entry in coordinates:
                 if not isinstance(coord_entry, list) or len(coord_entry) != 2 or not all(
                         isinstance(coord, (int, float)) for coord in coord_entry):
-                    print("Error 3")
                     return False
 
         return True
