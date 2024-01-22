@@ -1,0 +1,14 @@
+# geolwatchd.service
+[Unit]
+Description=The geolwatchd service for geolocation functionality
+After=network.target
+
+[Service]
+ExecStart=/opt/geolwatchd/venv/bin/python /opt/geolwatchd/src/main.py
+WorkingDirectory=/opt/geolwatchd/
+Restart=always
+User=nobody
+Group=nogroup
+
+[Install]
+WantedBy=multi-user.target
