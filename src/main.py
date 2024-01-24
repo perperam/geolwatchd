@@ -79,12 +79,12 @@ class Processor:
 
     def run(self) -> None:
         while True:
-            cord = self.get_cord()
+            coord = self.get_cord()
 
-            logging.debug(f'Processor: the Coord is: {cord}')
-            print(f'Processor: the Coord is: {cord}')
+            logging.debug(f'Processor: the Coord is: {coord}')
+            print(f'Processor: the Coord is: {coord}')
 
-            if cord is None:
+            if coord is None:
                 if self.setting_no_data == 0:
                     pass
                 elif self.setting_no_data == 1:
@@ -92,7 +92,7 @@ class Processor:
                 elif self.setting_no_data == 2:
                     self.handler.block()
             else:
-                if self.coordinate_in_areas(cord):
+                if self.coordinate_in_areas(coord):
                     self.handler.block()
                 else:
                     self.handler.unblock()
