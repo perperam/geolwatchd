@@ -4,7 +4,7 @@ Description=The geolwatchd service for geolocation functionality
 After=network.target
 
 [Service]
-ExecStart=/opt/geolwatchd/venv/bin/python /opt/geolwatchd/src/main.py
+ExecStart=/opt/geolwatchd/venv/bin/python /opt/geolwatchd/src/__main__.py
 WorkingDirectory=/opt/geolwatchd/
 Restart=always
 # User=nobody
