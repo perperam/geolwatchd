@@ -1,7 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 PROJECT_DIR="/opt/geolwatchd"
 PIP_PATH="$PROJECT_DIR/venv/bin/pip"
+SYSTEMD_DIR="/etc/systemd/system"
 
 mkdir -p "$PROJECT_DIR"
 
@@ -11,7 +12,9 @@ python3 -m venv "$PROJECT_DIR/venv"
 
 cp -r "./src" "$PROJECT_DIR/src/"
 
-cp "./geolwatchd.service" "$PROJECT_DIR/"
+cp "./geolwatchd.service" "$SYSTEMD_DIR/"
+
+systemctl daemon-reload
 
 systemctl enable geolwatchd
 systemctl start geolwatchd
