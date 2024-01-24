@@ -1,3 +1,5 @@
+import logging
+
 from shapely.geometry import Polygon
 import json
 
@@ -15,13 +17,15 @@ class Blacklist:
             with open(json_file_path, 'r') as file:
                 loaded_data = json.load(file)
         except Exception as e:
-            print(e)
+            logging.warning(f'Blacklist: {e}')
+            print(f'Blacklist: {e}')
 
         if self.is_valid_json(loaded_data):
             self.data = loaded_data
         else:
             self.data = {}
-            print(Exception("Blacklist data is in the wrong format"))
+            logging.warning("Blacklist: blacklist.json is in the wrong format")
+            print(Exception("Blacklist: blacklist.json is in the wrong format"))
 
     def is_valid_json(self, data: dict) -> bool:
         if not isinstance(data, dict):
