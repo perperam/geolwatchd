@@ -98,8 +98,6 @@ class Processor:
                     self.handler.unblock()
 
     def get_cord(self) -> Point:
-        sleep(2)
-
         data = self.sensor.get_geolocation()
         if isinstance(data, tuple):
             return Point(self.sensor.get_geolocation())
