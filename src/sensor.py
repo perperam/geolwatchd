@@ -18,6 +18,7 @@ class Simulator(Sensor):
         self.start_time = time.time()
 
     def get_geolocation(self) -> tuple:
+        time.sleep(1.5)
         if not self.items:
             raise ValueError("No items in the storage.")
 
