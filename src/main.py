@@ -1,10 +1,18 @@
 from time import sleep
+import logging
 
 from shapely.geometry import Point
 
 from blacklist import Blacklist
 from sensor import Sensor
 from subscriber import Subscriber
+
+
+logging.basicConfig(
+    filename='info.log',
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 
 class Handler:
@@ -16,14 +24,20 @@ class Handler:
     def block(self) -> None:
         if not self.is_blocked:
             self.is_blocked = True
-            print("Blocked")
+
+            logging.info("Handler: Blocked")
+            print("Handler: Blocked")
+
             for subscriber in self.subscribers:
                 subscriber.notify('BLOCK')
 
     def unblock(self) -> None:
         if self.is_blocked:
             self.is_blocked = False
-            print("Unblocked")
+
+            logging.info("Handler: Unblocked")
+            print("Handler: Unblocked")
+
             for subscriber in self.subscribers:
                 subscriber.notify('UNBLOCK')
 
@@ -48,12 +62,17 @@ class Processor:
         self.setting_no_data = 1
         self.within_areas = []
 
+        logging.info(f"Processor: blacklist_areas = {self.blacklist_areas}")
+
     def coordinate_in_areas(self, gps_coordinate: Point) -> str:
         point = Point(gps_coordinate)
 
         for area_key in self.blacklist_areas.keys():
             if point.within(self.blacklist_areas[area_key]):
-                print(f'inside the {area_key} area')
+
+                logging.info(f'Processor: inside the {area_key} area')
+                print(f'Processor: inside the {area_key} area')
+
                 return area_key
             else:
                 return None
@@ -61,7 +80,10 @@ class Processor:
     def run(self) -> None:
         while True:
             cord = self.get_cord()
-            print(cord)
+
+            logging.debug(f'Processor: the Coord is: {cord}')
+            print(f'Processor: the Coord is: {cord}')
+
             if cord is None:
                 if self.setting_no_data == 0:
                     pass
