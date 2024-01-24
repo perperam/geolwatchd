@@ -48,7 +48,7 @@ class Processor:
         self.setting_no_data = 1
         self.within_areas = []
 
-    def coordinate_in_areas(self, gps_coordinate: Point) -> str | None:
+    def coordinate_in_areas(self, gps_coordinate: Point) -> str:
         point = Point(gps_coordinate)
 
         for area_key in self.blacklist_areas.keys():
@@ -75,7 +75,7 @@ class Processor:
                 else:
                     self.handler.unblock()
 
-    def get_cord(self) -> Point | None:
+    def get_cord(self) -> Point:
         sleep(2)
 
         data = self.sensor.get_geolocation()

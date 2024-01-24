@@ -7,7 +7,7 @@ import serial
 
 class Sensor(ABC):
     @abstractmethod
-    def get_geolocation(self) -> tuple | None:
+    def get_geolocation(self) -> tuple:
         pass
 
 
@@ -17,7 +17,7 @@ class Simulator(Sensor):
         self.interval = interval
         self.start_time = time.time()
 
-    def get_geolocation(self) -> tuple | None:
+    def get_geolocation(self) -> tuple:
         if not self.items:
             raise ValueError("No items in the storage.")
 
@@ -41,7 +41,7 @@ class GPS(Sensor):
         self.port = "/dev/ttyACM0"
         self.baud_rate = 9600
 
-    def get_geolocation(self) -> tuple | None:
+    def get_geolocation(self) -> tuple:
         with serial.Serial(self.port, self.baud_rate, timeout=1) as ser:
             line = ser.readline().decode("utf-8").strip()
 
