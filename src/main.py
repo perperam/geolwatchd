@@ -63,13 +63,12 @@ class Processor:
             cord = self.get_cord()
             print(cord)
             if cord is None:
-                match self.setting_no_data:
-                    case 0:
-                        pass
-                    case 1:
-                        self.handler.unblock()
-                    case 2:
-                        self.handler.block()
+                if self.setting_no_data == 0:
+                    pass
+                elif self.setting_no_data == 1:
+                    self.handler.unblock()
+                elif self.setting_no_data == 2:
+                    self.handler.block()
             else:
                 if self.coordinate_in_areas(cord):
                     self.handler.block()
