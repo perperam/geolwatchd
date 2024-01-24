@@ -1,4 +1,4 @@
-from main import Processor, Handler
+from processing import Processor, Handler
 from sensor import Simulator
 from blacklist import Blacklist
 from subscriber import Subscriber
