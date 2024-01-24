@@ -5,13 +5,13 @@ import pynmea2
 import serial
 
 
-class DataEndpoint(ABC):
+class Sensor(ABC):
     @abstractmethod
     def get_geolocation(self) -> tuple | None:
         pass
 
 
-class Simulator(DataEndpoint):
+class Simulator(Sensor):
     def __init__(self, items, interval=1):
         self.items = items
         self.interval = interval
@@ -36,7 +36,7 @@ class Simulator(DataEndpoint):
         self.start_time = time.time()
 
 
-class Sensor(DataEndpoint):
+class GPS(Sensor):
     def __init__(self):
         self.port = "/dev/ttyACM0"
         self.baud_rate = 9600
