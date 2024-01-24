@@ -9,18 +9,19 @@ class Blacklist:
 
     def load_from_file(self, path: str) -> None:
         json_file_path = path
+        loaded_data = None
 
         try:
             with open(json_file_path, 'r') as file:
                 loaded_data = json.load(file)
-        except:
-            Exception("Could not load Blacklist Config Json")
+        except Exception as e:
+            print(e)
 
         if self.is_valid_json(loaded_data):
             self.data = loaded_data
         else:
             self.data = {}
-            Exception("Blacklist data is in the wrong format")
+            print(Exception("Blacklist data is in the wrong format"))
 
     def is_valid_json(self, data: dict) -> bool:
         if not isinstance(data, dict):
@@ -37,11 +38,11 @@ class Blacklist:
 
         return True
 
-    def get_areas(self) -> dict | None:
+    def get_areas(self) -> dict:
         if self.data:
             return {name: Polygon(points) for name, points in zip(self.data.keys(), self.data.values())}
         else:
-            return None
+            return {}
 
 
 if __name__ == "__main__":

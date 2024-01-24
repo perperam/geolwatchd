@@ -10,7 +10,7 @@ if __name__ == "__main__":
             interval=5
         )
 
-    blacklist = Blacklist("blacklist.json")
+    blacklist = Blacklist("../blacklist.json")
     handler = Handler()
 
     sub1 = Subscriber('localhost', 12345)
