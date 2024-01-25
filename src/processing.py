@@ -47,6 +47,10 @@ class Handler:
 
     def add_subscriber(self, subscriber: Subscriber) -> None:
         self.subscribers.append(subscriber)
+
+        logging.info(f"Handler: added subscriber {subscriber.host}:{subscriber.port}")
+        print(f"Handler: added subscriber {subscriber.host}:{subscriber.port}")
+
         if self.is_blocked:
             subscriber.notify('BLOCK')
 

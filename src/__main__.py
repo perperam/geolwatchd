@@ -1,7 +1,7 @@
 from processing import Processor, Handler
 from sensor import Simulator
 from blacklist import Blacklist
-from subscriber import Subscriber
+from subscriber import Subscriber, load_subscribers
 
 
 if __name__ == "__main__":
@@ -13,8 +13,11 @@ if __name__ == "__main__":
     blacklist = Blacklist("blacklist.json")
     handler = Handler()
 
-    sub1 = Subscriber('localhost', 12345)
-    handler.add_subscriber(sub1)
+    for sub in load_subscribers("subscribers.json"):
+        handler.add_subscriber(sub)
+
+    # sub1 = Subscriber('localhost', 12345)
+    # handler.add_subscriber(sub1)
 
     processor = Processor(simulator, blacklist, handler)
     processor.run()
