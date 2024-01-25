@@ -1,5 +1,7 @@
 from time import sleep
 import logging
+from datetime import datetime
+from pathlib import Path
 
 from shapely.geometry import Point
 
@@ -7,11 +9,13 @@ from blacklist import Blacklist
 from sensor import Sensor
 from subscriber import Subscriber
 
+logging_dir = Path('log/')
+logging_dir.mkdir(parents=True, exist_ok=True)
 
 logging.basicConfig(
-    filename='info.log',
-    level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    filename = logging_dir / f'{datetime.now().date()}.log',
+    level = logging.DEBUG,
+    format ='%(asctime)s - %(levelname)s - %(message)s'
 )
 
 
