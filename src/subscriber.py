@@ -22,8 +22,8 @@ def load_subscribers(path: str) -> list:
         print(f'Subscriber Loader: {e}')
 
     if is_valid_json(loaded_data):
-        for subs in loaded_data.values():
-            loaded_subscribers.append(Subscriber(subs['host'], subs['port']))
+        for sub_name in loaded_data.keys():
+            loaded_subscribers.append(Subscriber(sub_name, loaded_data[sub_name]['host'], loaded_data[sub_name]['port']))
         return loaded_subscribers
     else:
         logging.warning("Subscriber Loader: subscribers.json is in the wrong format")
