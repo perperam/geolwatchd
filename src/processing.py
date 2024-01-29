@@ -108,6 +108,6 @@ class Processor:
     def get_cord(self) -> Point:
         data = self.sensor.get_geolocation()
         if isinstance(data, tuple):
-            return Point(self.sensor.get_geolocation())
+            return Point(data)
         else:
             return None
