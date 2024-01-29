@@ -5,6 +5,7 @@ PIP_PATH="$PROJECT_DIR/venv/bin/pip"
 SYSTEMD_DIR="/etc/systemd/system"
 
 mkdir -p "$PROJECT_DIR"
+mkdir -p "$PROJECT_DIR/log"
 
 python3 -m venv "$PROJECT_DIR/venv"
 
