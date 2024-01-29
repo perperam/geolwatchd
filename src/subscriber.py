@@ -32,19 +32,24 @@ def load_subscribers(path: str) -> list:
 
 
 class Subscriber:
-    def __init__(self, host: str, port: int):
+    def __init__(self, name: str,  host: str, port: int):
+        self.name = name
         self.host = host
         self.port = port
 
     def notify(self, message) -> None:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            sock.connect((self.host, self.port))
-
             try:
-                sock.send(message.encode('utf-8'))
+                sock.connect((self.host, self.port))
 
+                try:
+                    sock.send(message.encode('utf-8'))
+
+                except Exception as e:
+                    print(e)
             except Exception as e:
-                print(e)
+                logging.warning(f"Subscriber: could not connect to  {self.name} with {self.host}:{self.port}")
+                print(f"Subscriber: could not connect to  {self.name} with {self.host}:{self.port}")
 
 
 if __name__ == '__main__':
